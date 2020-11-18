@@ -1,0 +1,82 @@
+module BANCO_REGISTRO_TB( );
+reg [2:0] direccionR1;
+reg [2:0] direccionR2; 
+reg [2:0] data_W; 
+reg [7:0]D_reg;
+reg CLK=0;
+reg RST=0; 
+reg w_r; 
+wire [7:0] RX; 
+wire [7:0] RY; 
+
+BANCO_REGISTRO  uut (
+
+.direccionR1(direccionR1),
+.direccionR2(direccionR2), 
+.data_W(data_W) ,
+.D_reg(D_reg),
+.CLK(CLK),
+.RST(RST), 
+.w_r(w_r), 
+.RX(RX), 
+.RY(RX)
+);
+
+always #1
+ CLK=~CLK;
+ initial 
+    begin
+    
+    
+     data_W=0;
+     D_reg=1;
+     RST=0;
+     w_r=1; 
+   
+     #10
+     
+     data_W=1;
+     D_reg=2;
+     RST=0;
+     w_r=1; 
+     
+     #10
+    
+     data_W=2;
+     D_reg=3;
+     RST=0;
+     w_r=1; 
+   
+     #10
+     
+     
+     data_W=3;
+     D_reg=4;
+     RST=0;
+     w_r=1; 
+//---------------------------------------------------     
+     #10
+     direccionR1=0; 
+     direccionR2=0;
+     RST=0;
+     w_r=0; 
+     
+     #10
+     direccionR1=1; 
+     direccionR2=1;
+     RST=0;
+     w_r=0; 
+     
+     #10
+     direccionR1=2; 
+     direccionR2=2;
+     RST=0;
+     w_r=0; 
+     
+     #10
+     direccionR1=3; 
+     direccionR2=3;
+     RST=0;
+     w_r=0; 
+ end
+endmodule
