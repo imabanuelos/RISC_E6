@@ -1,0 +1,68 @@
+module BANCO_REGISTRO(
+input [2:0] direccionR1,
+input [2:0] direccionR2, 
+input [2:0] data_W, 
+input [7:0]D_reg,
+input CLK,
+input RST, 
+input w_r, 
+output reg [7:0] RX, 
+output reg [7:0] RY
+); 
+
+
+reg [7:0] R[0:7];
+always @(posedge CLK)
+if (RST==0)
+begin
+if (w_r)
+    begin
+        case (data_W)
+            0: R[0] <= D_reg;
+            1: R[1] <= D_reg;
+            2: R[2] <= D_reg;
+            3: R[3] <= D_reg;
+            4: R[4] <= D_reg;
+            5: R[5] <= D_reg;
+            6: R[6] <= D_reg;
+            7: R[7] <= D_reg;
+        endcase
+     end
+ else
+     begin
+        case (direccionR1)
+            0: RX <= R[0];
+            1: RX <= R[1];
+            2: RX <= R[2];
+            3: RX <= R[3];
+            4: RX <= R[4];
+            5: RX <= R[5];
+            6: RX <= R[6];
+            7: RX <= R[7];
+        endcase
+        case (direccionR2)
+            0: RY <= R[0];
+            1: RY <= R[1];
+            2: RY <= R[2];
+            3: RY <= R[3];
+            4: RY <= R[4];
+            5: RY <= R[5];
+            6: RY <= R[6];
+            7: RY <= R[7];
+        endcase
+     end
+
+ end
+ else
+ begin
+ R[0]=0;
+ R[1]=0;
+ R[2]=0;
+ R[3]=0;
+ R[4]=0;
+ R[5]=0;
+ R[6]=0;
+ R[7]=0;
+
+end
+endmodule
