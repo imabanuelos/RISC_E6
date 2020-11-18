@@ -1,0 +1,28 @@
+module ALU
+(
+input [7:0] A, 
+input [7:0] B, 
+input [2:0] CTL, 
+output [7:0] Resultado, 
+output [3:0] Flag
+); 
+reg [7:0] RX; 
+always@(*) 
+begin 
+    case(CTL) 
+        0: RX<=A+B; 
+        1: RX<=A-B; 
+        2: RX<=A<<B;
+        3: RX<=A>>B; 
+        4: RX<=A&B;
+        5: RX<=A|B;
+        6: RX<=A^B;
+        7: RX<=~A;
+    endcase
+end
+
+assign Flag[0] = &(~RX); 
+assign Flag[1] = RX[8];
+assign Flag[2] = RX[7];
+assign Resultado = RX[7:0]; 
+endmodule
