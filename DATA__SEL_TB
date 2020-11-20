@@ -1,0 +1,42 @@
+module DATA_SEL_TB (
+);
+reg[7:0] DataIn_bus;
+reg[7:0] Resultado;
+reg[7:0] sel_data_sel; 
+reg[7:0] Pc;   
+wire[7:0] Dato_Registro;
+
+DATA_SEL uut(
+.DataIn_bus(DataIn_bus),
+.Resultado(Resultado),
+.sel_data_sel(sel_data_sel), 
+.Pc(Pc),   
+.Dato_Registro(Dato_Registro)
+);
+initial
+    begin
+        sel_data_sel=8'b00000000;
+        DataIn_bus=8'b00000011;
+        Resultado=8'b00000010;
+        Pc=8'b00000111;   
+       
+        #10
+        sel_data_sel=8'b00000001;
+        DataIn_bus=8'b00001111;
+        Resultado=8'b00000111;
+        Pc=8'b00010011;   
+      
+        #10
+        sel_data_sel=8'b00000010;
+        DataIn_bus=8'b00100011;
+        Resultado=8'b00010010;
+        Pc=8'b00010111;   
+       
+      
+        
+       
+        
+    end
+    
+
+endmodule
