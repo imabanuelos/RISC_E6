@@ -1,0 +1,64 @@
+module INT_BUS_TB( );
+ reg [7:0] RX;
+ reg [7:0] RY;
+ reg [4:0] NUM;
+ reg [3:0] sel_int_bus;
+ reg CLK=1;
+ reg RST=0;
+ wire [7:0] Address_Data;
+ wire [7:0] DataOut;
+ wire w_r;
+ 
+ 
+ 
+ INT_BUS uut(
+ .RX(RX),
+ .RY(RY),
+ .NUM(NUM),
+ .sel_int_bus(sel_int_bus),
+ .CLK(CLK),
+ .RST(RST),
+ .Address_Data(Address_Data),
+ .DataOut(DataOut),
+ .w_r(w_r)
+ );
+ 
+ always #1
+	CLK = ~CLK;
+		initial
+		begin
+		
+		sel_int_bus=0;
+		RY=1;
+		RX=2;
+		NUM=3;
+		RST=0;
+		
+		
+		#20
+		sel_int_bus=1;
+		RY=2;
+		RX=5;
+		NUM=4;
+		RST=0;
+		
+		
+		#20
+		sel_int_bus=2;
+		RY=6;
+		RX=8;
+		NUM=5;
+		RST=0;
+		
+		
+		#20
+		sel_int_bus=3;
+		RY=8;
+		RX=5;
+		NUM=6;
+		RST=1;
+		
+	end	
+ 
+ 
+endmodule
