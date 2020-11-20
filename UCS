@@ -1,0 +1,57 @@
+module UCS(
+input [4:0] COND,
+input CLK, 
+input RST, 
+input [7:0] RX, 
+input [3:0] Flag, 
+output reg [7:0] Address_instruction 
+ );
+always @(posedge CLK) 
+begin
+if(RST) 
+ Address_instruction <= 0; 
+ else
+ case (COND) 
+ 0: Address_instruction <= RX; 
+ 1: Address_instruction <= RX; 
+ 2: begin 
+ if (Flag[0]) 
+ Address_instruction <= RX; 
+ else
+ Address_instruction <= Address_instruction+1;
+ end
+ 3: begin
+ if (~Flag[0])
+ Address_instruction <= RX;
+ else
+ Address_instruction <= Address_instruction+1;
+ end
+ 4: begin
+ if (Flag[1])
+ Address_instruction <= RX;
+ else
+ Address_instruction <= Address_instruction+1;
+end
+ 5: begin
+ if (~Flag[1])
+ Address_instruction <= RX;
+ else
+ Address_instruction <= Address_instruction+1;
+ end
+ 6: begin
+ if (Flag[2])
+ Address_instruction <= RX;
+ else
+ Address_instruction <= Address_instruction+1;
+ end
+ 7: begin
+ if (~Flag[2])
+ Address_instruction <= RX;
+ else
+ Address_instruction <= Address_instruction+1;
+ end
+ default: Address_instruction <= Address_instruction+1;
+ endcase
+ end
+   
+endmodule
