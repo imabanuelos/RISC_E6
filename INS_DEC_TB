@@ -1,0 +1,59 @@
+module INS_DEC_TB(); 
+reg  [7:0] Instruction; 
+wire [2:0] direccionR1; 
+wire [2:0] direccionR2;
+wire [2:0] data_W;
+wire  w_r;
+wire [2:0] CTL;
+wire [3:0] COND;
+wire [1:0] sel_int_bus;
+wire [2:0] sel_data_sel;
+
+
+
+
+INS_DEC uut( 
+.Instruction(Instruction), 
+.direccionR1(direccionR1), 
+.direccionR2(direccionR2),
+.data_W(data_W),
+.w_r(w_r),
+.CTL(CTL),
+.COND(COND),
+.sel_int_bus(sel_int_bus),
+.sel_data_sel(sel_int_bus)
+    
+  );
+
+
+initial
+begin
+ Instruction=8'b00000000;
+ 
+ #10
+ Instruction=8'b00100000;
+ 
+ #10
+ Instruction=8'b01000000;
+ 
+ #10
+ Instruction=8'b01100000;
+ 
+ #10
+ Instruction=8'b10000000;
+ 
+ #10
+ Instruction=8'b10100000;
+ 
+ #10
+ Instruction=8'b11000000;
+ 
+ #10
+ Instruction=8'b11100000;
+ 
+ 
+ 
+ end
+ 
+   
+endmodule
