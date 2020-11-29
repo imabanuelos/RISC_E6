@@ -1,0 +1,116 @@
+module INS_DEC(
+input   [7:0] Instruction, 
+output reg [2:0] direccionR1, 
+output reg [2:0] direccionR2,
+output reg [2:0] data_W, 
+output reg w_r,
+output reg [2:0] CTL,
+output reg [3:0] COND,
+output reg [1:0] sel_int_bus,
+output reg [2:0] sel_data_sel
+);
+always@(Instruction)
+begin
+case(Instruction[7:5])
+0: 
+begin
+ direccionR1<=0;
+ direccionR2<=0;
+ data_W<=0;
+ w_r<=0;
+ CTL<=0;
+ COND<=4'hF;
+ sel_int_bus<=2'd3;
+ sel_data_sel<=3'd5;
+ end
+ 1: 
+ begin
+ direccionR1<=0;
+ direccionR2<=0;
+ data_W<=0;
+ w_r<=1;
+ CTL<=0;
+ COND<=4'hf;
+ sel_int_bus<=2'd3;
+ sel_data_sel<=3'd4;
+ end
+ 2: 
+ begin
+ direccionR1<=0;
+ direccionR2<=Instruction[2:0];
+ data_W<=Instruction[5:3];
+ w_r<=1;
+ CTL<=0;
+ COND<=4'hF;
+ sel_int_bus<=2'd0;
+ sel_data_sel<=3'd0;
+ end
+ 3: 
+ begin
+ direccionR1<=0;
+ direccionR2<=0;
+ data_W<=0;
+ w_r<=0;
+ CTL<=0;
+ COND<=4'hF;
+ sel_int_bus<=2'd1;
+ sel_data_sel<=3'd5;
+ end
+ 4: 
+ begin
+ direccionR1<=Instruction[5:3];
+ direccionR2<=Instruction[2:0];
+ data_W<=0;
+ w_r<=0;
+ CTL<=0;
+ COND<=4'hF;
+ sel_int_bus<=2'd2;
+ sel_data_sel<=3'd5;
+ end
+ 5: 
+ begin
+ direccionR1<=0;
+ direccionR2<=Instruction[2:0];
+ data_W<=Instruction[5:3];
+ w_r<=1;
+ CTL<=0;
+ COND<=4'hF;
+ sel_int_bus=2'd3;
+ sel_data_sel<=3'd3;
+ end
+ 6:
+ begin
+ direccionR1<=0;
+ direccionR2<=Instruction[2:0];
+ data_W<=0;
+ w_r<=1;
+ CTL<=Instruction[5:3];
+ COND<=4'hF;
+ sel_int_bus<=2'd3;
+ sel_data_sel<=3'd1;
+ end
+ 7:
+ begin
+ direccionR1<=Instruction[5:3];
+ direccionR2<=0;
+ CTL<=0;
+ COND<={1'b0,Instruction[2:0]};
+ sel_int_bus<=2'd3;
+ if (Instruction[2:0]==3'b001)
+ begin
+ sel_data_sel<=3'd2;
+ data_W<=7;
+ w_r<=1;
+ end
+ else
+ begin
+ sel_data_sel<=3'd3;
+ data_W<=0;
+ w_r<=0;
+ end
+ end
+ endcase
+ end
+
+  
+endmodule
