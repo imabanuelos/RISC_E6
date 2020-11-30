@@ -1,0 +1,106 @@
+module RISC(
+ input [8:0] DataIn, 
+ input CLK, 
+ input RST, 
+ input [8:0] Instruction, 
+ output w_r, 
+ output [8:0] DataOut, 
+ output [8:0] Address_Instruction,
+ output [8:0] Address_Data
+ );
+
+
+ wire [8:0] W_RX;
+ wire [8:0] W_RY;
+ wire [8:0] W_DataIn_Registro;
+ wire [8:0] W_Resultado;
+ wire [2:0] W_direccionR1;
+ wire [2:0] W_direccionR2;
+ wire [2:0] W_dataW;
+ wire [2:0] W_CTL;
+ wire [2:0] W_Flag;
+ wire [2:0] W_sel_data_sel;
+ wire W_Write_Read_Register;
+ wire [3:0] W_COND;
+ wire [5:0] W_NUM;
+ wire [1:0] W_sel_int_bus;
+ 
+ 
+ //Instancia del instruction Decoder.
+ INS_DEC(
+ .Instruction(Instruction),
+ .direccionR1(W_direccionR1),
+ .direccionR2(W_direccionR2),
+ .dataW(W_dataW),
+ .W_R(W_Write_Read_Register),
+ .CTL(W_CTL),
+ .COND(W_COND),
+ .sel_int_bus(W_sel_int_bus),
+ .sel_data_sel(W_sel_data_sel)
+ );
+ 
+ 
+ 
+ //Instancia del Data Sel.
+  DATA_SEL (
+ .DataIn(DataIn),
+ .Resultado(W_Resultado),
+ .Pc(Address_Instruction),
+ .sel_data_sel(W_sel_data_sel),
+ .Dato_Registro(W_DataIn_Registro)
+ );
+
+
+//Instancia del Banco de Registros
+
+
+BANCO_REGISTRO (
+ .direccionR1(W_direccionR1),
+ .direccionR2(W_direccionR2),
+ .dataW(W_dataW),
+ .D_reg(W_DataIn_Registro),
+ .CLK(CLK),
+ .RST(RST),
+ .w_r(W_Write_Read_Register),
+ .RX(W_RX),
+ .RY(W_RY)
+ );
+ 
+ 
+ //Instancia de la ALU.
+ ALU (
+ .A(W_RX),
+ .B(W_RY),
+ .CTL(W_CTL),
+ .Rsultado(W_Resultado),
+ .Flag(W_Flag)
+ );
+ 
+ //Instancia del UCJ
+ INT_BUS(
+ .COND(W_COND),
+ .CLK(CLK),
+ .RST(RST),
+ .RX(W_RX),
+ .Flag(W_Flag),
+ .Address_instruction(Address_Instruction)
+ );
+ 
+ 
+ 
+ 
+ //Instancia del BIU
+INT_BUS (
+ .RST(RST),
+ .CLK(CLK),
+ .sel_int_bus(W_sel_int_bus),
+ .NUM(Instruction[4:0]),
+ .Rx(W_RX),
+ .Ry(W_RY),
+ .Address_Data(Address_Data),
+ .DataOut(DataOut),
+ .w_r(w_r)
+   );
+
+   
+endmodule
